@@ -13,14 +13,14 @@ class Client:
         self.salida = []
         self.rn = []
         self.epochs = 0
-        self.checks = 0
+        self.w = []
         
       
         
     def entrena(self):
    
-        my_rn = NetworkNeuron.RNA(*self.rn)
-        return my_rn.entrenamiento(self.ingreso, self.salida, 1000)
+        my_rn = NetworkNeuron.RNA(*self.rn,self.w)
+        return my_rn.entrenamiento(self.ingreso, self.salida, self.epochs)
        
 
     def start(self):
@@ -32,7 +32,9 @@ class Client:
         #Resibiendo la respuesta del servidor
         while True:
             print('\nEsperando ...')
-            data_json= self.client_socket.recv(1024).decode()
+            data_json = {}
+            data_json= self.client_socket.recv(16384).decode()
+            data_obj ={}
             print('El servidor envio:',data_json)
             data_obj = json.loads(data_json)
 
@@ -48,13 +50,15 @@ class Client:
             self.salida = data_obj['data']['y']
             self.rn = data_obj['rn']
             self.epochs = data_obj['epochs']
-            self.checks = data_obj['checks']
+            self.w = data_obj['w']
             result_w = self.entrena()
             #Enviando al servidor
             message = {"result":result_w}
             print('Enviando al servidor los pesos:',np.round(result_w,decimals=3))
             message_json = json.dumps(message)
+            print(message_json,'a')
             self.client_socket.sendall((message_json.strip()).encode())
+            
         
         
         

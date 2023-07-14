@@ -4,7 +4,7 @@ import math
 
 class RNA:
 
-    def __init__(self, ci_, co_, cs_):
+    def __init__(self, ci_, co_, cs_,w):
         self.ci = ci_
         self.co = co_
         self.cs = cs_
@@ -16,7 +16,7 @@ class RNA:
         self.y = []
         self.s = []
         self.g = []
-        self.w = []
+        self.w = w
         self.c = [0, 0, 0]  # capas de datos
         
         self.c[0] = self.ci
@@ -28,8 +28,7 @@ class RNA:
             self.s.append(0)
             self.g.append(0)
             
-        for _ in range(self.ci * self.co + self.co * self.cs):
-            self.w.append(self.get_random())
+        
     
     def get_random(self):
         return self.rand.random() * 2 - 1  # [-1;1[
@@ -129,6 +128,32 @@ class RNA:
             for j in range(self.c[0]):
                 self.w[ii] = self.w[ii] + self.g[i] * self.xin[ci][j]
                 ii += 1
+
+     
+                
+    def get_random(self):
+        return self.rand.random() * 2 - 1  # [-1;1[
+  
+    def prueba(self, pruebas):
+               
+        for i in range(len(pruebas)):
+            prubs = pruebas[i]
+            self.usored(prubs)
+
+    def fun(self, d):
+        return 1 / (1 + math.exp(-d))
+    
+    def usored(self, datatest):
+        print("-----------****Inicio Test****----------")
+        print("prueba", end=" ")
+        for i in range(len(datatest)):
+            print("[{}]".format(datatest[i]), end=" ")
+        print()
+        print("salida", end=" ")
+        for i in range(self.c[1], self.c[1] + self.c[2]):
+            print("[{}]".format(self.y[i]), end=" ")
+        print()
+        print("-----------****Fin Test****----------")
 
         
     
