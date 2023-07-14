@@ -7,7 +7,7 @@ import numpy as np
 class Client:
     def __init__(self) -> None:
         # self.host = 'localhost'
-        self.host = '172.31.5.252'
+        self.host = '34.247.89.185'
         self.port = 3000
         self.client_socket = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
         self.ingreso = []
